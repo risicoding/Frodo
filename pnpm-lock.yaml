@@ -186,10 +186,13 @@ importers:
         version: 4.0.0
       grammy:
         specifier: ^1.46.0
-        version: 1.46.0
+        version: 1.46.0(supports-color@11.0.0)
       neverthrow:
         specifier: ^8.2.0
         version: 8.2.0
+      supports-color:
+        specifier: ^11.0.0
+        version: 11.0.0
       teleproto:
         specifier: ^1.229.0
         version: 1.229.0
@@ -642,6 +645,10 @@ packages:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
     engines: {node: '>=8'}
 
+  supports-color@11.0.0:
+    resolution: {integrity: sha512-/zyImLdxhdygBIaVX0xTlQhKaCDLCrm665aqHk8xqK/Pa6k61fL6gwQGQq1k31yNyz6x55PppQgF2DMyPQa5xw==}
+    engines: {node: '>=22'}
+
   teleproto@1.229.0:
     resolution: {integrity: sha512-aEKx22ZS76SYy26eWR+2oV5XM4+orbq/2ZINvSKoV2SZERn6yqq9mw5lNK22nCax7lTnC0gcz8uqP26gaUxEqA==}
     engines: {node: '>=18'}
@@ -907,9 +914,11 @@ snapshots:
       color-convert: 3.1.3
       color-string: 2.1.4
 
-  debug@4.4.3:
+  debug@4.4.3(supports-color@11.0.0):
     dependencies:
       ms: 2.1.3
+    optionalDependencies:
+      supports-color: 11.0.0
 
   emoji-regex@8.0.0: {}
 
@@ -927,11 +936,11 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  grammy@1.46.0:
+  grammy@1.46.0(supports-color@11.0.0):
     dependencies:
       '@grammyjs/types': 5.0.0
       abort-controller: 3.0.0
-      debug: 4.4.3
+      debug: 4.4.3(supports-color@11.0.0)
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
@@ -1016,6 +1025,8 @@ snapshots:
   strip-ansi@6.0.1:
     dependencies:
       ansi-regex: 5.0.1
+
+  supports-color@11.0.0: {}
 
   teleproto@1.229.0:
     dependencies:
