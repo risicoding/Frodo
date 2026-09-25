@@ -13,12 +13,9 @@ const storageUnits = [
 ] as const;
 
 export const formatBytes = (bytes: number) => {
-  if (bytes <= 0) return { value: 0, unit: storageUnits[0].unit };
+  if (bytes <= 0) return `0 ${storageUnits[0].unit!}`;
   const pow = Math.max(0, Math.floor(logbase(bytes, 1024)));
   const unitIndex = Math.min(pow, storageUnits.length - 1);
 
-  return {
-    value: (bytes / 1024 ** unitIndex).toFixed(2),
-    unit: storageUnits[unitIndex]!.unit,
-  };
+  return `${(bytes / 1024 ** unitIndex).toFixed(2)} ${storageUnits[unitIndex]!.unit}`;
 };

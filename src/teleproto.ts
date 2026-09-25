@@ -7,10 +7,13 @@ import { err, ok, Result, ResultAsync, safeTry } from "neverthrow";
 import { iterDownload } from "teleproto/client/downloads";
 import { AppError } from "./lib/error";
 import { constants } from "./constants";
+import { getTelegramProgressBar } from "./bot/progress";
+import { FilePartSizeChangedError } from "teleproto/errors";
+import { telegramBaseClient } from "teleproto/client";
 
 const { BOT_TOKEN, API_ID, API_HASH, CHAT_ID, DOWNLOAD_DIR } = constants;
 
-export namespace Telegram {
+export namespace Teleproto {
   class TelegramError extends AppError {
     readonly tag = "TelegramError";
   }
@@ -60,9 +63,17 @@ export namespace Telegram {
         thumbSize: "",
       });
 
-      const bar = createSingleBar();
-      bar.start(Number(document.size), 0);
       let progress = 0;
+
+      const progressBar = createSingleBar();
+      progressBar.start(Number(document.size), 0);
+
+      const telegramBar = getTelegramProgressBar(
+        fileName,
+        Number(document.size),
+      );
+
+      yield* telegramBar.start();
 
       const stream = yield* FileSystem.safeCreateWriteStream(
         path.join(DOWNLOAD_DIR, fileName),
@@ -71,10 +82,11 @@ export namespace Telegram {
       for await (const chunk of iterDownload(client, location)) {
         stream.write(chunk);
         progress += chunk.length;
-        bar.update(progress);
+        progressBar.update(progress);
+        telegramBar.update(progress);
       }
 
-      bar.stop();
-      return ok();
+      progressBar.stop();
+      return telegramBar.done();
     });
 }

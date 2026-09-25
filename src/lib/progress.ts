@@ -7,8 +7,7 @@ export const createMutibar = (type: "download" | "upload") => {
       format: `${type} |{bar}| {percentage}% | {value}/{total} | {eta}s`,
       formatValue: (value, _, type) => {
         if (type === "value" || type === "total") {
-          const format = formatBytes(value);
-          return `${format.value}${format.unit}`;
+          return formatBytes(value);
         }
         return value.toString();
       },
@@ -25,8 +24,7 @@ export const createSingleBar = () => {
       format: `| {bar} | {percentage}% | {value}/{total} | {eta}s`,
       formatValue: (value, _, type) => {
         if (type === "value" || type === "total") {
-          const format = formatBytes(value);
-          return `${format.value}${format.unit}`;
+          return formatBytes(value);
         }
         return value.toString();
       },
