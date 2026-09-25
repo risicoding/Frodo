@@ -1,6 +1,7 @@
-import { ResultAsync } from "neverthrow";
+import { Result, ResultAsync } from "neverthrow";
 import fs from "fs/promises";
 import { AppError } from "./error";
+import { createReadStream, createWriteStream } from "fs";
 
 export namespace FileSystem {
   export class FilesystemError extends AppError {
@@ -25,5 +26,14 @@ export namespace FileSystem {
   export const safeReadFile = ResultAsync.fromThrowable(
     fs.readFile,
     (e) => new FilesystemError("error reading file", e),
+  );
+
+  export const safeCreateWriteStream = Result.fromThrowable(
+    createWriteStream,
+    (e) => new FilesystemError("cant create write stream", e),
+  );
+  export const safeCreateReadStream = Result.fromThrowable(
+    createReadStream,
+    (e) => new FilesystemError("cant create read stream", e),
   );
 }
